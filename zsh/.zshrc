@@ -27,4 +27,4 @@ if command -v batcat >/dev/null 2>&1; then
 fi
 
 # Dotfiles directory (set by install.sh)
-export DOTFILES="${DOTFILES:-$HOME/dotfiles}"
+export DOTFILES="${DOTFILES:-$HOME/.dotfiles}"

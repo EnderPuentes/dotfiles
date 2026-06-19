@@ -29,7 +29,7 @@ Skills live in a separate repository: **[ai-agent-skills](https://github.com/End
 Install all default skills:
 
 ```bash
-~/dotfiles/install-skills.sh
+~/.dotfiles/install-skills.sh
 ```
 
 Install a single skill with [skills.sh](https://skills.sh):
@@ -45,8 +45,8 @@ Available skills include `typescript`, `zod`, `jsdoc`, `conventional-commits`, `
 ### One-liner (clone + install)
 
 ```bash
-git clone https://github.com/EnderPuentes/dotfiles.git ~/dotfiles
-~/dotfiles/install.sh
+git clone https://github.com/EnderPuentes/dotfiles.git ~/.dotfiles
+~/.dotfiles/install.sh
 ```
 
 ### From zero on Debian/Ubuntu
@@ -59,9 +59,9 @@ The installer handles everything:
 4. [nvm](https://github.com/nvm-sh/nvm) + Node.js LTS
 5. [Pi coding agent](https://pi.dev)
 6. Symlinks for all configs
-7. Agent skills from [ai-agent-skills](https://github.com/EnderPuentes/ai-agent-skills)
-8. Pi npm package dependencies
-9. `auth.json` template (you add your API key)
+7. Pi npm package dependencies
+8. `auth.json` template (you add your API key)
+9. Agent skills from [ai-agent-skills](https://github.com/EnderPuentes/ai-agent-skills) (last step)
 
 ### After install
 
@@ -82,34 +82,34 @@ nvim      # Neovim (plugins install on first launch)
 If you prefer step-by-step control:
 
 ```bash
-git clone https://github.com/EnderPuentes/dotfiles.git ~/dotfiles
-cd ~/dotfiles
+git clone https://github.com/EnderPuentes/dotfiles.git ~/.dotfiles
+cd ~/.dotfiles
 
 # Link configs
-ln -sfn ~/dotfiles/zsh/.zshrc ~/.zshrc
-ln -sfn ~/dotfiles/nvim ~/.config/nvim
+ln -sfn ~/.dotfiles/zsh/.zshrc ~/.zshrc
+ln -sfn ~/.dotfiles/nvim ~/.config/nvim
 
 # Pi config
 mkdir -p ~/.pi/agent/npm
-ln -sfn ~/dotfiles/pi/agent/settings.json ~/.pi/agent/settings.json
-ln -sfn ~/dotfiles/pi/web-search.json ~/.pi/web-search.json
-ln -sfn ~/dotfiles/pi/agent/npm/package.json ~/.pi/agent/npm/package.json
+ln -sfn ~/.dotfiles/pi/agent/settings.json ~/.pi/agent/settings.json
+ln -sfn ~/.dotfiles/pi/web-search.json ~/.pi/web-search.json
+ln -sfn ~/.dotfiles/pi/agent/npm/package.json ~/.pi/agent/npm/package.json
 
 # Pi packages
 cd ~/.pi/agent/npm && npm install
 
 # Agent skills
-~/dotfiles/install-skills.sh
+~/.dotfiles/install-skills.sh
 
 # Credentials (never committed)
-cp ~/dotfiles/pi/auth.json.example ~/.pi/agent/auth.json
+cp ~/.dotfiles/pi/auth.json.example ~/.pi/agent/auth.json
 chmod 600 ~/.pi/agent/auth.json
 ```
 
 ## Repository structure
 
 ```
-dotfiles/
+.dotfiles/
 ├── install.sh              # Bootstrap script (zero to full setup)
 ├── install-skills.sh       # Install skills from ai-agent-skills
 ├── README.md
@@ -164,16 +164,15 @@ If you accidentally commit credentials, **rotate your API keys immediately** and
 ## Updating
 
 ```bash
-cd ~/dotfiles
+cd ~/.dotfiles
 git pull
-./install.sh              # Re-link and update deps
-./install-skills.sh       # Update skills from ai-agent-skills
+./install.sh              # Re-link, update deps, and refresh skills
 pi update                 # Update Pi and packages
 ```
 
 ## Migrating from setup-pi
 
-This repo replaces the standalone [setup-pi](https://github.com/EnderPuentes/setup-pi) repository. Pi configuration now lives in `dotfiles/pi/`.
+This repo replaces the standalone [setup-pi](https://github.com/EnderPuentes/setup-pi) repository. Pi configuration now lives in `.dotfiles/pi/`.
 
 ## Related links
 

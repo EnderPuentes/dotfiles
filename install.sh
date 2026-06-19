@@ -163,17 +163,7 @@ link_configs() {
   ok "Dotfiles linked"
 }
 
-# ── 7. Agent skills ────────────────────────────────────────────────────────────
-
-install_agent_skills() {
-  if [[ -x "$DOTFILES/install-skills.sh" ]]; then
-    "$DOTFILES/install-skills.sh"
-  else
-    warn "install-skills.sh not found — skipping skills install"
-  fi
-}
-
-# ── 8. Pi npm dependencies ───────────────────────────────────────────────────
+# ── 7. Pi npm dependencies ───────────────────────────────────────────────────
 
 install_pi_packages() {
   # shellcheck source=/dev/null
@@ -188,7 +178,7 @@ install_pi_packages() {
   fi
 }
 
-# ── 9. Pi credentials template ─────────────────────────────────────────────
+# ── 8. Pi credentials template ─────────────────────────────────────────────
 
 setup_pi_auth() {
   local auth="$HOME/.pi/agent/auth.json"
@@ -204,7 +194,7 @@ setup_pi_auth() {
   fi
 }
 
-# ── 10. Default shell ────────────────────────────────────────────────────────
+# ── 9. Default shell ─────────────────────────────────────────────────────────
 
 set_default_shell() {
   if [[ "${SHELL:-}" == *zsh* ]]; then
@@ -216,6 +206,16 @@ set_default_shell() {
     info "Setting zsh as default shell (may prompt for password)…"
     chsh -s "$(command -v zsh)" "$USER" 2>/dev/null || \
       warn "Could not change default shell — run: chsh -s $(command -v zsh)"
+  fi
+}
+
+# ── 10. Agent skills (last step) ─────────────────────────────────────────────
+
+install_agent_skills() {
+  if [[ -x "$DOTFILES/install-skills.sh" ]]; then
+    "$DOTFILES/install-skills.sh"
+  else
+    warn "install-skills.sh not found — skipping skills install"
   fi
 }
 
@@ -237,10 +237,10 @@ main() {
     install_nvm
     install_pi
     link_configs
-    install_agent_skills
     install_pi_packages
     setup_pi_auth
     set_default_shell
+    install_agent_skills
   } 2>&1 | tee "$LOG"
 
   echo ""
@@ -254,8 +254,8 @@ main() {
   echo "  4. Run: nvim        — Neovim (plugins install on first launch)"
   echo ""
   echo "Quick install on a new machine:"
-  echo "  git clone https://github.com/EnderPuentes/dotfiles.git ~/dotfiles"
-  echo "  ~/dotfiles/install.sh"
+  echo "  git clone https://github.com/EnderPuentes/dotfiles.git ~/.dotfiles"
+  echo "  ~/.dotfiles/install.sh"
   echo ""
 }
 
