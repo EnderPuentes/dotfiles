@@ -11,7 +11,7 @@ A public, batteries-included setup for **Zsh**, **Neovim**, **Pi coding agent**,
 | **Zsh** | `zsh/.zshrc` | Oh My Zsh + plugins + nvm |
 | **Neovim** | `nvim/` | Lazy.nvim, LSP, Telescope, Treesitter |
 | **Pi agent** | `pi/` | Cursor SDK, context-mode, web access |
-| **Skills** | `install-skills.sh` | Installs from [ai-agent-skills](https://github.com/EnderPuentes/ai-agent-skills) |
+| **Skills** | `install.sh` (last step) | Installs from [ai-agent-skills](https://github.com/EnderPuentes/ai-agent-skills) |
 
 ### Pi packages
 
@@ -26,11 +26,7 @@ Skills from npm packages (context-mode, librarian) install automatically with Pi
 
 Skills live in a separate repository: **[ai-agent-skills](https://github.com/EnderPuentes/ai-agent-skills)**.
 
-Install all default skills:
-
-```bash
-~/.dotfiles/install-skills.sh
-```
+All default skills install automatically when you run `~/.dotfiles/install.sh`.
 
 Install a single skill with [skills.sh](https://skills.sh):
 
@@ -95,13 +91,10 @@ ln -sfn ~/.dotfiles/pi/agent/settings.json ~/.pi/agent/settings.json
 ln -sfn ~/.dotfiles/pi/web-search.json ~/.pi/web-search.json
 ln -sfn ~/.dotfiles/pi/agent/npm/package.json ~/.pi/agent/npm/package.json
 
-# Pi packages
-cd ~/.pi/agent/npm && npm install
+# Pi packages + skills + credentials (or run ./install.sh for everything)
+./install.sh
 
-# Agent skills
-~/.dotfiles/install-skills.sh
-
-# Credentials (never committed)
+# Credentials only if install.sh was skipped
 cp ~/.dotfiles/pi/auth.json.example ~/.pi/agent/auth.json
 chmod 600 ~/.pi/agent/auth.json
 ```
@@ -110,8 +103,7 @@ chmod 600 ~/.pi/agent/auth.json
 
 ```
 .dotfiles/
-├── install.sh              # Bootstrap script (zero to full setup)
-├── install-skills.sh       # Install skills from ai-agent-skills
+├── install.sh              # Bootstrap script (zero to full setup, skills included)
 ├── README.md
 ├── LICENSE
 ├── CONTRIBUTING.md

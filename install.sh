@@ -212,11 +212,43 @@ set_default_shell() {
 # ── 10. Agent skills (last step) ─────────────────────────────────────────────
 
 install_agent_skills() {
-  if [[ -x "$DOTFILES/install-skills.sh" ]]; then
-    "$DOTFILES/install-skills.sh"
+  local skills_repo="${SKILLS_REPO:-https://github.com/EnderPuentes/ai-agent-skills.git}"
+  local skills_dir="${SKILLS_DIR:-$HOME/.local/share/ai-agent-skills}"
+  local agents_skills="$HOME/.agents/skills"
+  local pi_skills="$HOME/.pi/agent/skills"
+  local count=0
+
+  info "Installing agent skills from ai-agent-skills…"
+
+  if [[ -d "$skills_dir/.git" ]]; then
+    info "Updating ai-agent-skills…"
+    git -C "$skills_dir" pull --ff-only
   else
-    warn "install-skills.sh not found — skipping skills install"
+    info "Cloning ai-agent-skills…"
+    mkdir -p "$(dirname "$skills_dir")"
+    git clone --depth=1 "$skills_repo" "$skills_dir"
   fi
+
+  for dir in "$agents_skills" "$pi_skills"; do
+    if [[ -L "$dir" ]]; then
+      warn "Removing legacy symlink: $dir"
+      rm "$dir"
+    fi
+    mkdir -p "$dir"
+  done
+
+  for skill_dir in "$skills_dir"/*/; do
+    [[ -f "${skill_dir}SKILL.md" ]] || continue
+
+    local skill_name
+    skill_name="$(basename "$skill_dir")"
+
+    ln -sfn "$skill_dir" "$agents_skills/$skill_name"
+    ln -sfn "$skill_dir" "$pi_skills/$skill_name"
+    count=$((count + 1))
+  done
+
+  ok "Linked $count skills to $agents_skills and $pi_skills"
 }
 
 # ── Main ─────────────────────────────────────────────────────────────────────

@@ -29,7 +29,6 @@ Open an [issue](https://github.com/EnderPuentes/dotfiles/issues) for:
 
    ```bash
    ./install.sh
-   ./install-skills.sh
    pi
    nvim
    ```
@@ -52,7 +51,7 @@ chore: update neovim plugin versions
 **Include:**
 
 - Shell, editor, and Pi configuration
-- `install.sh`, `install-skills.sh`, and documentation
+- `install.sh` and documentation
 - `.gitignore` updates for new local-only paths
 
 **Never include:**
@@ -70,7 +69,7 @@ Agent skills belong in the separate **[ai-agent-skills](https://github.com/Ender
 To add or update a skill:
 
 1. Open a PR in [ai-agent-skills](https://github.com/EnderPuentes/ai-agent-skills)
-2. Run `./install-skills.sh` locally to pull and link the updated skills
+2. Run `./install.sh` locally to pull and link the updated skills
 
 Install a single skill with:
 
