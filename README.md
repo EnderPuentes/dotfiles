@@ -113,7 +113,7 @@ Leader key is **Space**. Press `Space` and wait briefly for which-key hints.
 | `Ctrl+Space` | Trigger autocomplete menu |
 | `Ctrl+w` + `h/j/k/l` | Move between splits |
 
-Inside Neo-tree: `l` open, `h` collapse, `.` toggle hidden files, `Y` copy path.
+Inside Neo-tree: `l` open, `h` collapse, `.` toggle hidden files, `i` file details, `Y` copy path. The winbar shows tabs for **Files**, **Buffers**, and **Git**; when you scroll, the current folder path appears as a breadcrumb.
 
 ### Typography (JetBrains Mono)
 

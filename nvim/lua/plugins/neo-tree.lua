@@ -16,6 +16,21 @@ return {
     popup_border_style = "rounded",
     enable_git_status = true,
     enable_diagnostics = true,
+    enable_opened_markers = true,
+    source_selector = {
+      winbar = true,
+      statusline = false,
+      show_scrolled_off_parent_node = true,
+      sources = {
+        { source = "filesystem", display_name = " 󰉋 Files " },
+        { source = "buffers", display_name = " 󰈙 Buffers " },
+        { source = "git_status", display_name = " 󰊢 Git " },
+      },
+      tabs_layout = "active",
+      separator = { left = "", right = "  " },
+      highlight_tab = "NeoTreeTabInactive",
+      highlight_tab_active = "NeoTreeTabActive",
+    },
     default_component_configs = {
       container = {
         enable_character_fade = true,
@@ -45,6 +60,7 @@ return {
       },
       name = {
         trailing_slash = false,
+        highlight_opened_files = true,
         use_git_status_colors = true,
         highlight = "NeoTreeFileName",
       },
@@ -61,14 +77,20 @@ return {
           conflict = "󰞇",
         },
       },
-      file_size = { enabled = false },
+      file_size = {
+        enabled = true,
+        width = 8,
+        required_width = 40,
+        highlight = "NeoTreeFileStats",
+      },
       type = { enabled = false },
       last_modified = { enabled = false },
       created = { enabled = false },
     },
     window = {
       position = "left",
-      width = 36,
+      width = 38,
+      auto_expand_width = true,
       mapping_options = {
         noremap = true,
         nowait = true,
@@ -82,6 +104,7 @@ return {
         ["."] = "toggle_hidden",
         ["H"] = "toggle_hidden",
         ["R"] = "refresh",
+        ["i"] = "show_file_details",
         ["Y"] = {
           function(state)
             local node = state.tree:get_node()
@@ -116,13 +139,6 @@ return {
   },
   config = function(_, opts)
     require("neo-tree").setup(opts)
-
-    -- Sidebar styling aligned with tokyonight
-    vim.api.nvim_set_hl(0, "NeoTreeNormal", { link = "NormalFloat" })
-    vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { link = "NormalFloat" })
-    vim.api.nvim_set_hl(0, "NeoTreeEndOfBuffer", { link = "NormalFloat" })
-    vim.api.nvim_set_hl(0, "NeoTreeWinSeparator", { link = "WinSeparator" })
-    vim.api.nvim_set_hl(0, "NeoTreeCursorLine", { link = "CursorLine" })
-    vim.api.nvim_set_hl(0, "NeoTreeIndentMarker", { link = "Comment" })
+    require("config.highlights").setup_neotree_highlights()
   end,
 }
