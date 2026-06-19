@@ -16,3 +16,8 @@ opt.timeoutlen = 300
 opt.splitright = true
 opt.splitbelow = true
 opt.clipboard = "unnamedplus"
+
+-- JetBrains Mono for GUI clients (Neovide, gvim). Terminal font is set by the emulator.
+if vim.fn.has("gui_running") == 1 then
+  opt.guifont = "JetBrainsMono Nerd Font:h13"
+end

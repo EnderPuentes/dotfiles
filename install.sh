@@ -49,7 +49,8 @@ install_system_packages() {
   info "Installing system packages…"
   sudo apt-get update -qq
   local packages=(
-    git curl wget zsh neovim bat lazygit
+    git curl wget zsh neovim bat lazygit unzip fontconfig
+    fonts-jetbrains-mono
     build-essential ripgrep fd-find
     ca-certificates gnupg
   )
@@ -68,6 +69,35 @@ install_system_packages() {
   fi
 
   ok "System packages installed"
+}
+
+# ── 1b. JetBrains Mono Nerd Font ─────────────────────────────────────────────
+
+install_jetbrains_font() {
+  if command -v fc-list >/dev/null 2>&1 && fc-list | grep -qi "JetBrainsMono Nerd Font"; then
+    ok "JetBrains Mono Nerd Font already installed"
+    return
+  fi
+
+  local font_dir="$HOME/.local/share/fonts/JetBrainsMonoNerdFont"
+  info "Installing JetBrains Mono Nerd Font…"
+  mkdir -p "$font_dir"
+
+  local version="v3.2.1"
+  local zip_url="https://github.com/ryanoasis/nerd-fonts/releases/download/${version}/JetBrainsMono.zip"
+  local tmp_zip
+  tmp_zip="$(mktemp /tmp/JetBrainsMono.XXXXXX.zip)"
+
+  if curl -fsSL "$zip_url" -o "$tmp_zip" && unzip -qo "$tmp_zip" "JetBrainsMonoNerdFont-*.ttf" -d "$font_dir"; then
+    rm -f "$tmp_zip"
+    fc-cache -f "$HOME/.local/share/fonts" 2>/dev/null || true
+    ok "JetBrains Mono Nerd Font installed to $font_dir"
+  else
+    rm -f "$tmp_zip"
+    warn "Could not install Nerd Font automatically"
+    warn "Install manually: https://www.nerdfonts.com/font-downloads"
+    warn "Or: sudo apt install fonts-jetbrains-mono"
+  fi
 }
 
 # ── 2. Oh My Zsh ─────────────────────────────────────────────────────────────
@@ -273,6 +303,7 @@ main() {
 
   {
     install_system_packages
+    install_jetbrains_font
     install_oh_my_zsh
     install_zsh_plugins
     install_nvm

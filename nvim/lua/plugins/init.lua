@@ -7,6 +7,7 @@ return {
     config = function(_, opts)
       require("tokyonight").setup(opts)
       vim.cmd.colorscheme("tokyonight")
+      require("config.highlights").setup()
     end,
   },
   {
@@ -32,29 +33,6 @@ return {
     end,
   },
   {
-    "nvim-neo-tree/neo-tree.nvim",
-    branch = "v3.x",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons",
-      "MunifTanjim/nui.nvim",
-    },
-    cmd = "Neotree",
-    keys = {
-      { "<leader>e", "<cmd>Neotree toggle<cr>", desc = "Toggle file explorer" },
-    },
-    opts = {
-      filesystem = {
-        hijack_netrw_behavior = "disabled",
-        use_libuv_file_watcher = true,
-      },
-      window = {
-        position = "left",
-        width = 35,
-      },
-    },
-  },
-  {
     "lewis6991/gitsigns.nvim",
     event = { "BufReadPre", "BufNewFile" },
     opts = {
@@ -65,6 +43,9 @@ return {
         topdelete = { text = "‾" },
         changedelete = { text = "~" },
       },
+      numhl = true,
+      linehl = true,
+      current_line_blame = true,
     },
   },
   {
@@ -81,7 +62,9 @@ return {
     keys = {
       { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "Git diff" },
     },
-    opts = {},
+    opts = {
+      enhanced_diff_hl = true,
+    },
   },
   {
     "nvim-treesitter/nvim-treesitter",

@@ -100,6 +100,7 @@ Leader key is **Space**. Press `Space` and wait briefly for which-key hints.
 | Key | Action |
 |-----|--------|
 | `Space e` | Toggle file explorer (Neo-tree) |
+| `Space E` | Focus file explorer |
 | `Space ff` | Find files (like Cursor `Ctrl+P`) |
 | `Space fg` | Search text in project |
 | `Space fb` | Switch between open buffers |
@@ -111,6 +112,31 @@ Leader key is **Space**. Press `Space` and wait briefly for which-key hints.
 | `Space h` | Clear search highlight |
 | `Ctrl+Space` | Trigger autocomplete menu |
 | `Ctrl+w` + `h/j/k/l` | Move between splits |
+
+Inside Neo-tree: `l` open, `h` collapse, `.` toggle hidden files, `Y` copy path.
+
+### Typography (JetBrains Mono)
+
+Neovim in a terminal uses the **terminal emulator font**, not a Neovim setting. This setup installs **JetBrains Mono Nerd Font** via `install.sh` for file icons in Neo-tree.
+
+**Cursor / VS Code integrated terminal**
+
+1. `Ctrl+,` → search `terminal font family`
+2. Set to: `JetBrainsMono Nerd Font`
+3. Optional size: `13` or `14`
+
+**Standalone terminal** (Kitty, Alacritty, GNOME Terminal, etc.)
+
+Set the font to `JetBrainsMono Nerd Font` in that emulator's settings.
+
+**GUI Neovim** (Neovide) uses `guifont` from `nvim/lua/config/options.lua` automatically.
+
+Reinstall or refresh fonts:
+
+```bash
+~/.dotfiles/install.sh   # runs install_jetbrains_font
+fc-cache -fv ~/.local/share/fonts
+```
 
 ### After updating Neovim config
 
