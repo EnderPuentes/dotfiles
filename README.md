@@ -9,7 +9,7 @@ A public, batteries-included setup for **Zsh**, **Neovim**, **Pi coding agent**,
 | Component | Path | Description |
 |-----------|------|-------------|
 | **Zsh** | `zsh/.zshrc` | Oh My Zsh + plugins + nvm |
-| **Neovim** | `nvim/` | Lazy.nvim, LSP, Telescope, Treesitter |
+| **Neovim** | `nvim/` | Lazy.nvim, LSP, Telescope, Treesitter, Neo-tree, Git |
 | **Pi agent** | `pi/` | Cursor SDK, context-mode, web access |
 | **Skills** | `install.sh` (last step) | Installs from [ai-agent-skills](https://github.com/EnderPuentes/ai-agent-skills) |
 
@@ -71,6 +71,64 @@ exec zsh
 # 3. Start coding
 pi        # Pi coding agent
 nvim      # Neovim (plugins install on first launch)
+```
+
+## Neovim
+
+Config lives in `nvim/` and links to `~/.config/nvim`. Plugins install automatically on first launch via [Lazy.nvim](https://github.com/folke/lazy.nvim).
+
+### Plugins
+
+| Plugin | Purpose |
+|--------|---------|
+| `tokyonight.nvim` | Colorscheme |
+| `lualine.nvim` | Status line |
+| `telescope.nvim` | Fuzzy finder (files, grep, buffers, git status) |
+| `neo-tree.nvim` | File explorer sidebar |
+| `gitsigns.nvim` | Git change markers in the gutter |
+| `lazygit.nvim` | Git panel (requires [LazyGit](https://github.com/jesseduffield/lazygit) binary) |
+| `diffview.nvim` | Side-by-side git diffs |
+| `nvim-treesitter` | Syntax highlighting (pinned to `master` for Neovim 0.11) |
+| `mason.nvim` + `nvim-lspconfig` | LSP servers |
+| `nvim-cmp` | Autocompletion |
+| `which-key.nvim` | Keybinding hints |
+
+### Keybindings
+
+Leader key is **Space**. Press `Space` and wait briefly for which-key hints.
+
+| Key | Action |
+|-----|--------|
+| `Space e` | Toggle file explorer (Neo-tree) |
+| `Space ff` | Find files (like Cursor `Ctrl+P`) |
+| `Space fg` | Search text in project |
+| `Space fb` | Switch between open buffers |
+| `Space gs` | List changed files (Telescope git status) |
+| `Space gg` | Open LazyGit panel |
+| `Space gd` | Open Diffview (repo diff) |
+| `Space w` | Save buffer |
+| `Space q` | Close window |
+| `Space h` | Clear search highlight |
+| `Ctrl+Space` | Trigger autocomplete menu |
+| `Ctrl+w` + `h/j/k/l` | Move between splits |
+
+### After updating Neovim config
+
+```bash
+cd ~/.dotfiles && git pull
+nvim
+# Inside nvim: :Lazy sync
+```
+
+### LazyGit requirement
+
+`Space gg` needs the `lazygit` CLI. The installer tries to install it via `apt`. If missing:
+
+```bash
+# Debian/Ubuntu (universe repo)
+sudo apt install lazygit
+
+# Or see https://github.com/jesseduffield/lazygit#installation
 ```
 
 ## Manual install

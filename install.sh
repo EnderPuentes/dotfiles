@@ -48,10 +48,19 @@ install_system_packages() {
 
   info "Installing system packages…"
   sudo apt-get update -qq
-  sudo apt-get install -y -qq \
-    git curl wget zsh neovim bat \
-    build-essential ripgrep fd-find \
+  local packages=(
+    git curl wget zsh neovim bat lazygit
+    build-essential ripgrep fd-find
     ca-certificates gnupg
+  )
+  sudo apt-get install -y -qq "${packages[@]}" 2>/dev/null || {
+    warn "lazygit not in apt — retrying without it"
+    sudo apt-get install -y -qq \
+      git curl wget zsh neovim bat \
+      build-essential ripgrep fd-find \
+      ca-certificates gnupg
+    warn "Install lazygit manually: https://github.com/jesseduffield/lazygit#installation"
+  }
 
   # fd-find on Debian/Ubuntu is installed as fdfind
   if has_cmd fdfind && ! has_cmd fd; then
