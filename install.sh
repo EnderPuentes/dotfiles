@@ -153,9 +153,6 @@ link_configs() {
   # Neovim
   link_dir "$DOTFILES/nvim" "$HOME/.config/nvim"
 
-  # Agent skills (shared across Pi, Cursor, Claude Code)
-  link_dir "$DOTFILES/skills" "$HOME/.agents/skills"
-
   # Pi config
   mkdir -p "$HOME/.pi/agent/npm"
   link_file "$DOTFILES/pi/agent/settings.json" "$HOME/.pi/agent/settings.json"
@@ -163,13 +160,20 @@ link_configs() {
   link_file "$DOTFILES/pi/agent/npm/package.json" "$HOME/.pi/agent/npm/package.json"
   link_file "$DOTFILES/pi/agent/npm/.gitignore" "$HOME/.pi/agent/npm/.gitignore"
 
-  # Pi-native skills path (same content, second discovery location)
-  link_dir "$DOTFILES/skills" "$HOME/.pi/agent/skills"
-
   ok "Dotfiles linked"
 }
 
-# ── 7. Pi npm dependencies ───────────────────────────────────────────────────
+# ── 7. Agent skills ────────────────────────────────────────────────────────────
+
+install_agent_skills() {
+  if [[ -x "$DOTFILES/install-skills.sh" ]]; then
+    "$DOTFILES/install-skills.sh"
+  else
+    warn "install-skills.sh not found — skipping skills install"
+  fi
+}
+
+# ── 8. Pi npm dependencies ───────────────────────────────────────────────────
 
 install_pi_packages() {
   # shellcheck source=/dev/null
@@ -184,7 +188,7 @@ install_pi_packages() {
   fi
 }
 
-# ── 8. Pi credentials template ─────────────────────────────────────────────
+# ── 9. Pi credentials template ─────────────────────────────────────────────
 
 setup_pi_auth() {
   local auth="$HOME/.pi/agent/auth.json"
@@ -200,7 +204,7 @@ setup_pi_auth() {
   fi
 }
 
-# ── 9. Default shell ─────────────────────────────────────────────────────────
+# ── 10. Default shell ────────────────────────────────────────────────────────
 
 set_default_shell() {
   if [[ "${SHELL:-}" == *zsh* ]]; then
@@ -233,6 +237,7 @@ main() {
     install_nvm
     install_pi
     link_configs
+    install_agent_skills
     install_pi_packages
     setup_pi_auth
     set_default_shell

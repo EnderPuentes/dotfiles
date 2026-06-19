@@ -29,6 +29,7 @@ Open an [issue](https://github.com/EnderPuentes/dotfiles/issues) for:
 
    ```bash
    ./install.sh
+   ./install-skills.sh
    pi
    nvim
    ```
@@ -51,27 +52,31 @@ chore: update neovim plugin versions
 **Include:**
 
 - Shell, editor, and Pi configuration
-- Agent skills (`skills/`)
-- `install.sh` and documentation
+- `install.sh`, `install-skills.sh`, and documentation
 - `.gitignore` updates for new local-only paths
 
 **Never include:**
 
 - `auth.json` or any API keys / tokens
 - Session history or conversation logs
+- Agent skills (contribute to [ai-agent-skills](https://github.com/EnderPuentes/ai-agent-skills) instead)
 - `node_modules/`, downloaded binaries, local caches
 - Machine-specific paths with private usernames or hostnames
 
 ## Adding skills
 
-Skills follow the [Agent Skills standard](https://agentskills.io/specification):
+Agent skills belong in the separate **[ai-agent-skills](https://github.com/EnderPuentes/ai-agent-skills)** repository.
 
-```
-skills/my-skill/
-└── SKILL.md    # Required: YAML frontmatter + instructions
-```
+To add or update a skill:
 
-Place new skills in `skills/<name>/SKILL.md`. They are symlinked to `~/.agents/skills` and `~/.pi/agent/skills` by `install.sh`.
+1. Open a PR in [ai-agent-skills](https://github.com/EnderPuentes/ai-agent-skills)
+2. Run `./install-skills.sh` locally to pull and link the updated skills
+
+Install a single skill with:
+
+```bash
+npx skills add https://github.com/EnderPuentes/ai-agent-skills --skill my-skill
+```
 
 ## Code of conduct
 

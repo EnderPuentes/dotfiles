@@ -11,7 +11,7 @@ A public, batteries-included setup for **Zsh**, **Neovim**, **Pi coding agent**,
 | **Zsh** | `zsh/.zshrc` | Oh My Zsh + plugins + nvm |
 | **Neovim** | `nvim/` | Lazy.nvim, LSP, Telescope, Treesitter |
 | **Pi agent** | `pi/` | Cursor SDK, context-mode, web access |
-| **Skills** | `skills/` | 13 agent skills for Pi, Cursor, and Claude Code |
+| **Skills** | `install-skills.sh` | Installs from [ai-agent-skills](https://github.com/EnderPuentes/ai-agent-skills) |
 
 ### Pi packages
 
@@ -22,21 +22,23 @@ A public, batteries-included setup for **Zsh**, **Neovim**, **Pi coding agent**,
 
 Skills from npm packages (context-mode, librarian) install automatically with Pi packages.
 
-### Default skills
+### Agent skills
 
-| Skill | Purpose |
-|-------|---------|
-| `typescript` | Type-safe JavaScript patterns |
-| `zod` | Schema validation |
-| `jsdoc` | API documentation |
-| `conventional-commits` | Commit message format |
-| `code-review` | UI/React review checklist |
-| `find-skills` | Discover installable skills |
-| `playwright-cli` | Browser automation |
-| `vercel-react-best-practices` | React/Next.js performance |
-| `grill-me` | Design stress-testing |
-| `pr-description` | PR descriptions (Sanity monorepo) |
-| `sanity-*` | Sanity Studio plugin authoring |
+Skills live in a separate repository: **[ai-agent-skills](https://github.com/EnderPuentes/ai-agent-skills)**.
+
+Install all default skills:
+
+```bash
+~/dotfiles/install-skills.sh
+```
+
+Install a single skill with [skills.sh](https://skills.sh):
+
+```bash
+npx skills add https://github.com/EnderPuentes/ai-agent-skills --skill typescript
+```
+
+Available skills include `typescript`, `zod`, `jsdoc`, `conventional-commits`, `code-review`, `grill-me`, `tailwind-css`, `shadcn-ui`, and more — see the [ai-agent-skills README](https://github.com/EnderPuentes/ai-agent-skills#installation).
 
 ## Quick install
 
@@ -56,15 +58,10 @@ The installer handles everything:
 3. Zsh plugins (autosuggestions, syntax-highlighting, completions)
 4. [nvm](https://github.com/nvm-sh/nvm) + Node.js LTS
 5. [Pi coding agent](https://pi.dev)
-6. Symlinks for all configs and skills
-7. Pi npm package dependencies
-8. `auth.json` template (you add your API key)
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/EnderPuentes/dotfiles/main/install.sh | bash -s -- --from-clone
-```
-
-> **Note:** For the curl one-liner, clone first then run `install.sh` from the repo directory.
+6. Symlinks for all configs
+7. Agent skills from [ai-agent-skills](https://github.com/EnderPuentes/ai-agent-skills)
+8. Pi npm package dependencies
+9. `auth.json` template (you add your API key)
 
 ### After install
 
@@ -91,8 +88,6 @@ cd ~/dotfiles
 # Link configs
 ln -sfn ~/dotfiles/zsh/.zshrc ~/.zshrc
 ln -sfn ~/dotfiles/nvim ~/.config/nvim
-ln -sfn ~/dotfiles/skills ~/.agents/skills
-ln -sfn ~/dotfiles/skills ~/.pi/agent/skills
 
 # Pi config
 mkdir -p ~/.pi/agent/npm
@@ -102,6 +97,9 @@ ln -sfn ~/dotfiles/pi/agent/npm/package.json ~/.pi/agent/npm/package.json
 
 # Pi packages
 cd ~/.pi/agent/npm && npm install
+
+# Agent skills
+~/dotfiles/install-skills.sh
 
 # Credentials (never committed)
 cp ~/dotfiles/pi/auth.json.example ~/.pi/agent/auth.json
@@ -113,6 +111,7 @@ chmod 600 ~/.pi/agent/auth.json
 ```
 dotfiles/
 ├── install.sh              # Bootstrap script (zero to full setup)
+├── install-skills.sh       # Install skills from ai-agent-skills
 ├── README.md
 ├── LICENSE
 ├── CONTRIBUTING.md
@@ -124,18 +123,13 @@ dotfiles/
 │   └── lua/
 │       ├── config/         # Options, keymaps, lazy bootstrap
 │       └── plugins/        # Plugin specs
-├── pi/
-│   ├── agent/
-│   │   ├── settings.json   # Pi settings
-│   │   └── npm/
-│   │       └── package.json
-│   ├── web-search.json
-│   └── auth.json.example   # Template (copy locally)
-└── skills/
-    ├── typescript/
-    ├── zod/
-    ├── conventional-commits/
-    └── ...                 # 13 skills total
+└── pi/
+    ├── agent/
+    │   ├── settings.json   # Pi settings
+    │   └── npm/
+    │       └── package.json
+    ├── web-search.json
+    └── auth.json.example   # Template (copy locally)
 ```
 
 ## Pi credentials
@@ -172,8 +166,9 @@ If you accidentally commit credentials, **rotate your API keys immediately** and
 ```bash
 cd ~/dotfiles
 git pull
-./install.sh          # Re-link and update deps
-pi update             # Update Pi and packages
+./install.sh              # Re-link and update deps
+./install-skills.sh       # Update skills from ai-agent-skills
+pi update                 # Update Pi and packages
 ```
 
 ## Migrating from setup-pi
@@ -182,6 +177,7 @@ This repo replaces the standalone [setup-pi](https://github.com/EnderPuentes/set
 
 ## Related links
 
+- [ai-agent-skills](https://github.com/EnderPuentes/ai-agent-skills) — Agent skills collection
 - [Pi documentation](https://github.com/earendil-works/pi)
 - [Agent Skills specification](https://agentskills.io/specification)
 - [Oh My Zsh](https://ohmyz.sh/)
