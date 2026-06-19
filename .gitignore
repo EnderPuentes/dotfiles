@@ -1,0 +1,52 @@
+# ── OS & editor junk ──
+.DS_Store
+Thumbs.db
+*~
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# ── Secrets & credentials (NEVER commit) ──
+**/auth.json
+**/.env
+**/.env.*
+**/credentials.json
+**/secrets.json
+**/*.pem
+**/*.key
+**/id_rsa
+**/id_ed25519
+
+# ── Pi agent — private runtime data ──
+pi/agent/auth.json
+pi/agent/models.json
+pi/agent/sessions/
+pi/agent/bin/
+pi/agent/pi-crash.log
+pi/agent/cursor-sdk-model-list.json
+pi/context-mode/
+
+# ── Pi npm dependencies ──
+pi/agent/npm/node_modules/
+
+# ── context-mode local cache ──
+*.db
+*.db-shm
+*.db-wal
+stats-pid-*.json
+
+# ── Logs ──
+*.log
+
+# ── Neovim runtime (installed by lazy.nvim on first launch) ──
+# Config is tracked; plugin data lives in ~/.local/share/nvim
+
+# ── Zsh runtime (Oh My Zsh installed by install.sh) ──
+# Plugins cloned to ~/.zsh/ by install.sh, not tracked here
+
+# ── Node ──
+node_modules/
+
+# ── Install artifacts ──
+.install-log

@@ -1,0 +1,10 @@
+{
+  "name": "pi-extensions",
+  "private": true,
+  "dependencies": {
+    "context-mode": "^1.0.162",
+    "pi-cursor-sdk": "^0.1.45",
+    "pi-screenshots-picker": "^1.2.2",
+    "pi-web-access": "^0.10.7"
+  }
+}
