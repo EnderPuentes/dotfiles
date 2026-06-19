@@ -81,16 +81,17 @@ Config lives in `nvim/` and links to `~/.config/nvim`. Plugins install automatic
 
 | Plugin | Purpose |
 |--------|---------|
-| `tokyonight.nvim` | Colorscheme |
+| `tokyonight.nvim` | Colorscheme (Tokyo Night day/night via `:set background=light\|dark`) |
 | `lualine.nvim` | Status line |
 | `telescope.nvim` | Fuzzy finder (files, grep, buffers, git status) |
-| `neo-tree.nvim` | File explorer sidebar |
+| `neo-tree.nvim` | File explorer sidebar (Cursor-style) |
 | `gitsigns.nvim` | Git change markers in the gutter |
 | `lazygit.nvim` | Git panel (requires [LazyGit](https://github.com/jesseduffield/lazygit) binary) |
 | `diffview.nvim` | Side-by-side git diffs |
 | `nvim-treesitter` | Syntax highlighting (pinned to `master` for Neovim 0.11) |
 | `mason.nvim` + `nvim-lspconfig` | LSP servers |
-| `nvim-cmp` | Autocompletion |
+| `nvim-cmp` | Autocompletion (LSP + buffer) |
+| `nvim-autopairs` | Auto-close `(`, `{`, `[`, quotes |
 | `which-key.nvim` | Keybinding hints |
 
 ### Keybindings
@@ -110,10 +111,19 @@ Leader key is **Space**. Press `Space` and wait briefly for which-key hints.
 | `Space w` | Save buffer |
 | `Space q` | Close window |
 | `Space h` | Clear search highlight |
+| `gd` | Go to definition (LSP) |
+| `gr` | Find references (LSP) |
+| `K` | Hover documentation (LSP) |
+| `Space rn` | Rename symbol (LSP) |
+| `Space ca` | Code action (LSP) |
+| `[d` / `]d` | Previous / next diagnostic |
 | `Ctrl+Space` | Trigger autocomplete menu |
+| `Tab` / `Shift+Tab` | Next / previous completion item |
 | `Ctrl+w` + `h/j/k/l` | Move between splits |
 
-Inside Neo-tree: `l` open, `h` collapse, `.` toggle hidden files, `i` file details, `Y` copy path. The winbar shows tabs for **Files**, **Buffers**, and **Git**; when you scroll, the current folder path appears as a breadcrumb.
+Inside Neo-tree: `l` open, `h` collapse, `.` toggle hidden files, `i` file details, `Y` copy path. The header shows **EXPLORER**; when you scroll, the current folder path appears as a breadcrumb. Git badges on the right: `M` modified, `!` unstaged, `U` untracked, `A` added, `S` staged.
+
+Tokyo Night follows terminal background: `:set background=light` → day, `:set background=dark` → night.
 
 ### Typography (JetBrains Mono)
 
@@ -129,7 +139,7 @@ Neovim in a terminal uses the **terminal emulator font**, not a Neovim setting. 
 
 Set the font to `JetBrainsMono Nerd Font` in that emulator's settings.
 
-**GUI Neovim** (Neovide) uses `guifont` from `nvim/lua/config/options.lua` automatically.
+**GUI Neovim** (Neovide) uses `guifont` from `nvim/lua/config/typography.lua` automatically.
 
 Reinstall or refresh fonts:
 

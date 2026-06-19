@@ -3,11 +3,10 @@ return {
     "folke/tokyonight.nvim",
     lazy = false,
     priority = 1000,
-    opts = { style = "night" },
+    opts = {},
     config = function(_, opts)
       require("tokyonight").setup(opts)
-      vim.cmd.colorscheme("tokyonight")
-      require("config.highlights").setup()
+      require("config.colorscheme").setup()
     end,
   },
   {
@@ -17,7 +16,7 @@ return {
   },
   {
     "nvim-tree/nvim-web-devicons",
-    opts = {},
+    opts = require("config.typography").devicons_opts(),
   },
   {
     "nvim-telescope/telescope.nvim",
@@ -44,8 +43,8 @@ return {
         changedelete = { text = "~" },
       },
       numhl = true,
-      linehl = true,
-      current_line_blame = true,
+      linehl = false,
+      current_line_blame = false,
     },
   },
   {
@@ -86,26 +85,15 @@ return {
     opts = {},
   },
   {
-    "williamboman/mason-lspconfig.nvim",
-    dependencies = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" },
-    opts = {
-      ensure_installed = { "lua_ls", "ts_ls", "bashls" },
-    },
-  },
-  {
     "neovim/nvim-lspconfig",
-    dependencies = { "williamboman/mason-lspconfig.nvim" },
+    dependencies = {
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      "hrsh7th/cmp-nvim-lsp",
+      "nvim-telescope/telescope.nvim",
+    },
     config = function()
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-      require("mason-lspconfig").setup({
-        ensure_installed = { "lua_ls", "ts_ls", "bashls" },
-        handlers = {
-          function(server)
-            require("lspconfig")[server].setup({ capabilities = capabilities })
-          end,
-        },
-      })
+      require("config.lsp").setup()
     end,
   },
   {
@@ -113,19 +101,35 @@ return {
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",
-      "L3MON4D3/LuaSnip",
     },
     config = function()
       local cmp = require("cmp")
       cmp.setup({
         snippet = {
           expand = function(args)
-            require("luasnip").lsp_expand(args.body)
+            vim.snippet.expand(args.body)
           end,
         },
         mapping = cmp.mapping.preset.insert({
           ["<C-Space>"] = cmp.mapping.complete(),
           ["<CR>"] = cmp.mapping.confirm({ select = true }),
+          ["<Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_next_item()
+            else
+              fallback()
+            end
+          end, { "i", "s" }),
+          ["<S-Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_prev_item()
+            else
+              fallback()
+            end
+          end, { "i", "s" }),
+          ["<C-e>"] = cmp.mapping.abort(),
+          ["<C-n>"] = cmp.mapping.select_next_item(),
+          ["<C-p>"] = cmp.mapping.select_prev_item(),
         }),
         sources = {
           { name = "nvim_lsp" },
